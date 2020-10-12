@@ -67,7 +67,7 @@ public class AirportController {
     @PostMapping(value = "delete/{id}")
     public String addAirport(@PathVariable Long id, Model model){
         airportRepo.deleteById(id);
-        return "redirect:/admin/airport";
+        return "redirect:/admin/airports";
     }
 
 }
