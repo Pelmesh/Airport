@@ -1,35 +1,48 @@
-<#if messages??>
-    <td>${messages}</td>
-</#if>
+<#if massages??>
+    <p>${massages}</p>
+</#if>>
 
-<form action="/admin/flight" method="post">
+
+<form action="" method="post">
     <div>
         <label>Start</label>
-        <input type="datetime-local" name="strDateStart" required>
+        <label>
+            <input type="datetime-local" name="strDateStart"
+                <#if dateStart??>
+                   value="${dateStart}"
+                </#if>
+                   >
+        </label>
         <label>End</label>
-        <input type="datetime-local" name="strDateEnd" required>
+        <label>
+            <input type="datetime-local" name="strDateEnd"
+                    <#if dateEnd??>
+                        value="${dateEnd}"
+                    </#if>>
+        </label>
         <input type="submit">
     </div>
     <div>
         <label>
             <select name="airportStart">
+                <option selected disabled value="null">DEPARTURE</option>
                 <#list airports as airport>
-                    <option value="${airport.id}">${airport.name},${airport.IATA}</option>
+                    <option value="${airport.id}">${airport.city},${airport.name}</option>
                 </#list>
             </select>
         </label>
         <label>
             <select name="airportEnd">
+                <option selected disabled value="null">ARRIVAL</option>
                 <#list airports as airport>
-                    <option value="${airport.id}">${airport.name},${airport.IATA}</option>
+                    <option value="${airport.id}">${airport.city},${airport.name}</option>
                 </#list>
             </select>
         </label>
     </div>
-    <div><label> TotalNumberSeats : <input type="number" name="totalNumberSeats"/> </label></div>
-    <div><label> NumberlFlight : <input type="text" name="numberFlight"/> </label></div>
     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 </form>
+
 
 <table>
     <#list flights as flight>
@@ -43,11 +56,7 @@
             <td>${flight.remainingNumberSeats}</td>
             <td>${flight.airportStart.id},${flight.airportStart.name}</td>
             <td>${flight.airportEnd.id},${flight.airportEnd.name}</td>
-            <td><a href="/admin/flights/${flight.id}">edit</a></td>
-            <td><form action="/admin/flights/delete/${flight.id}" method="post">
-                    <input type="submit" value="delete"/>
-                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                </form></td>
+            <a href="/buy/${flight.id}">buy</a>
         </tr>
     </#list>
 </table>

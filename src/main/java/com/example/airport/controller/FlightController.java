@@ -26,7 +26,7 @@ public class FlightController {
     private FlightRepo flightRepo;
 
     @GetMapping(value = "")
-    public String main(Model model) {
+    public String getFlight(Model model) {
         model.addAttribute("airports", airportRepo.findAll());
         model.addAttribute("flights", flightRepo.findAll());
         return "flight";
@@ -38,16 +38,15 @@ public class FlightController {
                             @AuthenticationPrincipal User author,
                             Flight flight,
                             Model model) {
+        model.addAttribute("airports", airportRepo.findAll());
+        model.addAttribute("flights", flightRepo.findAll());
+
         if(flight.getTotalNumberSeats() < 0){
             model.addAttribute("messages", "Check number seats!");
-            model.addAttribute("airports", airportRepo.findAll());
-            model.addAttribute("flights", flightRepo.findAll());
             return "flight";
         }
         if(flight.getAirportStart().equals(flight.getAirportEnd())){
             model.addAttribute("messages", "Check Airports!");
-            model.addAttribute("airports", airportRepo.findAll());
-            model.addAttribute("flights", flightRepo.findAll());
             return "flight";
         }
 
@@ -58,8 +57,6 @@ public class FlightController {
         if(flight.getDateStart().compareTo(flight.getDateEnd()) > 0 ||
                 flight.getDateStart().compareTo(flight.getDateEnd()) == 0){
             model.addAttribute("messages", "Check Date!");
-            model.addAttribute("airports", airportRepo.findAll());
-            model.addAttribute("flights", flightRepo.findAll());
             return "flight";
         }
 
@@ -67,15 +64,11 @@ public class FlightController {
 
         if (flightFromRepo != null) {
             model.addAttribute("messages", "Flight exists!");
-            model.addAttribute("airports", airportRepo.findAll());
-            model.addAttribute("flights", flightRepo.findAll());
             return "flight";
         }
 
         flight.setTimeFlight(getTime(flight.getDateStart(), flight.getDateEnd()));
         flightRepo.save(flight);
-        model.addAttribute("airports", airportRepo.findAll());
-        model.addAttribute("flights", flightRepo.findAll());
         return "flight";
     }
 

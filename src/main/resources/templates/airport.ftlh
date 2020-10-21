@@ -2,7 +2,7 @@
     <td>${messages}</td>
 </#if>
 
-<form action="/admin/airport" method="post">
+<form action="/admin/airports" method="post">
     add airport
     <div><label> Country: <input type="text" name="country"/> </label></div>
     <div><label> City: <input type="text" name="city"/> </label></div>
